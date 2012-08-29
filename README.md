@@ -1,4 +1,4 @@
-pages
+Posts
 =====
 
-Pages based on `entropy`
+Posts blogging based on `entropy`
