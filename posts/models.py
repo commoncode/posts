@@ -1,10 +1,10 @@
 from django.db import models
 
-from entropy.base import ImageMixin, SlugMixin, TitleMixin
+from entropy.base import ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, MetadataMixin
 from entropy.fields import EnabledField
 
 
-class Post(ImageMixin, SlugMixin, TitleMixin):
+class Post(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, MetadataMixin):
     """
     Post is the elemetary model of Content
     """
