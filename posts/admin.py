@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from entropy.admin import ImageInline
-from posts import models
+from . import models
 
 
 class PostAdmin(admin.ModelAdmin):
