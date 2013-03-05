@@ -2,9 +2,18 @@ from django.contrib import admin
 
 from entropy.admin import ImageInline
 from . import models
+from . import settings
+
+try:
+    # Only import from platforms if it is a dependancy
+    from platforms import admin as platforms_admin
+    # Use platform mixin if platforms is found as a dependancy
+    PlatformInlineMixin = platforms_admin.PlatformInlineMixin
+except ImportError:
+    PlatformInlineMixin = object()
 
 
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(PlatformInlineMixin, admin.ModelAdmin):
     actions_on_top = True
 
     list_display = ('title', 'enabled',)
@@ -37,4 +46,6 @@ class PostAdmin(admin.ModelAdmin):
         }),
     )
 
-admin.site.register(models.Post, PostAdmin)
+
+if hasattr(settings, 'USE_POSTS_MODEL') and settings.USE_POSTS_MODEL:
+    admin.site.register(models.Post, PostAdmin)
