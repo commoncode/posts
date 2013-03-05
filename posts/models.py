@@ -7,9 +7,9 @@ try:
     # Only import from platforms if it is a dependancy
     from platforms import models as platforms_models
     # Use platform mixin if platforms is found as a dependancy
-    PlatformObjectManagerMixin = platforms_models.PlatformObjectManagerMixin
+    ObjectManager = platforms_models.PlatformObjectManager
 except ImportError:
-    PlatformObjectManagerMixin = object
+    ObjectManager = models.Manager
 
 
 class PostBase(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, MetadataMixin, PublishingStatusMixin):
@@ -38,5 +38,6 @@ class PostBase(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, M
         return self.title
 
 
-class Post(PostBase, PlatformObjectManagerMixin):
-    pass
+class Post(PostBase):
+
+    objects = ObjectManager()
