@@ -6,9 +6,13 @@ from entropy.fields import EnabledField
 
 try:
     # Only import from platforms if it is a dependancy
-    from platforms import models as platforms_models
-    # Use platform mixin if platforms is found as a dependancy
-    ObjectManager = platforms_models.PlatformObjectManager
+    from platforms import settings as platforms_settings
+    if platforms_settings.USE_PLATFORMS:
+        from platforms import models as platforms_models
+        # Use platform mixin if platforms is found as a dependancy
+        ObjectManager = platforms_models.PlatformObjectManager
+    else:
+        raise ImportError
 except ImportError:
     ObjectManager = models.Manager
 
