@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 from entropy.base import ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, MetadataMixin, PublishingStatusMixin
 from entropy.fields import EnabledField
@@ -41,3 +42,15 @@ class PostBase(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, M
 class Post(PostBase):
 
     objects = ObjectManager()
+
+    def get_absolute_url(self):
+        """Returns the absolute url for a single post instance
+        """
+        return reverse('posts_detail_post', args=(self.slug,))
+
+    @staticmethod
+    def get_list_url():
+        """Returns the absolute url for all post objects. This is a
+           static method.
+        """
+        return reverse('posts_all_posts')
