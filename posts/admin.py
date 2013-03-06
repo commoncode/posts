@@ -6,14 +6,18 @@ from . import settings
 
 try:
     # Only import from platforms if it is a dependancy
-    from platforms import admin as platforms_admin
-    # Use platform mixin if platforms is found as a dependancy
-    PlatformInlineMixin = platforms_admin.PlatformInlineMixin
+    from platforms import settings as platforms_settings
+    if platforms_settings.USE_PLATFORMS:
+        from platforms import admin as platforms_admin
+        # Use platform mixin if platforms is found as a dependancy
+        PlatformObjectInline = [platforms_admin.PlatformObjectInline]
+    else:
+        raise ImportError
 except ImportError:
-    PlatformInlineMixin = object()
+    PlatformObjectInline = []
 
 
-class PostAdmin(PlatformInlineMixin, admin.ModelAdmin):
+class PostAdmin(admin.ModelAdmin):
     actions_on_top = True
 
     list_display = ('title', 'enabled',)
@@ -26,8 +30,8 @@ class PostAdmin(PlatformInlineMixin, admin.ModelAdmin):
     }
 
     inlines = [
-        ImageInline,
-    ]
+        ImageInline
+    ] + PlatformObjectInline
 
     fieldsets = (
         (None, {
@@ -45,7 +49,6 @@ class PostAdmin(PlatformInlineMixin, admin.ModelAdmin):
             ]
         }),
     )
-
 
 if hasattr(settings, 'USE_POSTS_MODEL') and settings.USE_POSTS_MODEL:
     admin.site.register(models.Post, PostAdmin)
