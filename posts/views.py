@@ -16,6 +16,11 @@ class AllPosts(PlatformListMixin, ListView):
     model=Post
     template_name = "posts/post_list.html"
 
+    def get_queryset(self):
+        return super(AllPosts, self).get_queryset().filter(
+            enabled=True
+            )
+
 
 def all_posts(request):
     return AllPosts.as_view()(request)
@@ -24,6 +29,11 @@ def all_posts(request):
 class DetailPost(PlatformDetailMixin, DetailView):
     model = Post
     template_name = "posts/post_detail.html"
+
+    def get_queryset(self):
+        return super(DetailPost, self).get_queryset().filter(
+            enabled=True
+            )
 
 
 def detail(request, slug):
