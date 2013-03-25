@@ -20,7 +20,7 @@ except ImportError:
 class PostAdmin(admin.ModelAdmin):
     actions_on_top = True
 
-    list_display = ('title', 'featured', 'enabled')
+    list_display = ('title', 'featured', 'publishing_status', 'enabled')
     list_filter = ('enabled',)
     list_editable = ( 'enabled',)
     search_fields = ('title', 'slug',)
