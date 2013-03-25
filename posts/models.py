@@ -48,17 +48,29 @@ class PostManager(ObjectManager):
     """
         Get items that should be visible to the currently logged in user
             - if no user is provided, only published items will be returned
+            - if platforms is provided, filter by platform
 
     """
-    def published(self, user=None):
+    def published(self, user=None, platform=None):
         if user and user.is_staff:
             min_published_status = base.DRAFT
         else:
             min_published_status = base.PUBLISHED
 
-        return self.filter(
+        # Check platforms is installed and set to true before using
+        try:
+            from platforms import settings as platforms_settings
+            if platform and platforms_settings.USE_PLATFORMS:
+                query = self.platform(platform)
+            else:
+                raise ImportError
+        except ImportError:
+            query = self.all()
+
+        return query.filter(
             publishing_status__gte=min_published_status
         ).order_by('-created_at')
+
 
 
 class Post(PostBase):

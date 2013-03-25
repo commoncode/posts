@@ -17,9 +17,14 @@ class AllPosts(PlatformListMixin, ListView):
     template_name = "posts/post_list.html"
 
     def get_queryset(self):
-        return super(AllPosts, self).get_queryset().filter(
-            enabled=True
-            )
+        if hasattr(self.request, "platform"):
+            platform = self.request.platform
+        else:
+            platform = None
+
+        return self.model.objects.published(
+            self.request.user,
+            platform).filter(**self.kwargs)
 
 
 def all_posts(request):
@@ -31,9 +36,14 @@ class DetailPost(PlatformDetailMixin, DetailView):
     template_name = "posts/post_detail.html"
 
     def get_queryset(self):
-        return super(DetailPost, self).get_queryset().filter(
-            enabled=True
-            )
+        if hasattr(self.request, "platform"):
+            platform = self.request.platform
+        else:
+            platform = None
+
+        return self.model.objects.published(
+            self.request.user,
+            platform).filter(**self.kwargs)
 
 
 def detail(request, slug):
