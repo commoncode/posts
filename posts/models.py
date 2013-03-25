@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 
+from entropy import base
 from entropy.base import ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, MetadataMixin, PublishingStatusMixin
 from entropy.fields import EnabledField
 
@@ -43,9 +44,26 @@ class PostBase(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, M
         return self.title
 
 
+class PostManager(ObjectManager):
+    """
+        Get items that should be visible to the currently logged in user
+            - if no user is provided, only published items will be returned
+
+    """
+    def published(self, user=None):
+        if user and user.is_staff:
+            min_published_status = base.DRAFT
+        else:
+            min_published_status = base.PUBLISHED
+
+        return self.filter(
+            publishing_status__gte=min_published_status
+        ).order_by('-created_at')
+
+
 class Post(PostBase):
 
-    objects = ObjectManager()
+    objects = PostManager()
 
     def get_absolute_url(self):
         """Returns the absolute url for a single post instance
