@@ -44,6 +44,7 @@ class PostAdmin(admin.ModelAdmin):
                 'title',
                 'short_title',
                 'slug',
+                'byline',
                 'summary',
                 'body',
             ]
