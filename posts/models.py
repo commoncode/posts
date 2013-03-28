@@ -37,6 +37,8 @@ class PostBase(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, M
 
     featured = models.BooleanField(default=False)
 
+    published_date = models.DateField(null=True)
+
     class Meta:
         abstract = True
 

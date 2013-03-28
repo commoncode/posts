@@ -36,7 +36,7 @@ class PostAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'enabled', 'featured', 'publishing_status'
+                'enabled', 'featured', 'publishing_status', 'published_date',
             )
         }),
         ("Content", {
