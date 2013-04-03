@@ -2,7 +2,9 @@ from django.db import models
 from django.core.urlresolvers import reverse
 
 from entropy import base
-from entropy.base import ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, MetadataMixin, PublishingStatusMixin
+from entropy.base import (
+    ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, 
+    MetadataMixin, PublishingStatusMixin, AttributeMixin)
 from entropy.fields import EnabledField
 
 try:
@@ -18,7 +20,7 @@ except ImportError:
     ObjectManager = models.Manager
 
 
-class PostBase(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, MetadataMixin, PublishingStatusMixin):
+class PostBase(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, MetadataMixin, PublishingStatusMixin, AttributeMixin):
     """
     Post is the elemetary model of Content.  This class is abstract and utilised
     by the class below.

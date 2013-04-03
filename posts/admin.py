@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from entropy.admin import ImageInline
+from entropy.admin import ImageInline, InlineAttributeAdmin
 from . import models
 from . import settings
 
@@ -17,6 +17,11 @@ except ImportError:
     PlatformObjectInline = []
 
 
+class PostSetting(InlineAttributeAdmin):
+    verbose_name = "Post Setting"
+    verbose_name_plural = verbose_name + 's'
+
+
 class PostAdmin(admin.ModelAdmin):
     actions_on_top = True
 
@@ -30,7 +35,8 @@ class PostAdmin(admin.ModelAdmin):
     }
 
     inlines = [
-        ImageInline
+        ImageInline,
+        PostSetting
     ] + PlatformObjectInline
 
     fieldsets = (
