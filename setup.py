@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup( name='posts',
-    version = '0.0.1',
+    version = '0.0.2',
     description = 'Posts, based on entropy.',
     author = 'Daryl Antony',
     author_email = 'daryl@commoncode.com.au',
