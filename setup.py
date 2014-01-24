@@ -18,6 +18,9 @@ setup( name='posts',
         'Programming Language :: Python',
     ],
     install_requires = [
-        # 'entropy', # TODO: do the package location thing?
+        'entropy',
+    ],
+    dependency_links = [
+        'git+git@github.com:commoncode/entropy.git#egg=entropy',
     ]
 )
