@@ -3,21 +3,9 @@ from django.core.urlresolvers import reverse
 
 from entropy import base
 from entropy.base import (
-    ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, 
+    ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin,
     MetadataMixin, PublishingStatusMixin, AttributeMixin)
 from entropy.fields import EnabledField
-
-try:
-    # Only import from platforms if it is a dependancy
-    from platforms import settings as platforms_settings
-    if platforms_settings.USE_PLATFORMS:
-        from platforms import models as platforms_models
-        # Use platform mixin if platforms is found as a dependancy
-        ObjectManager = platforms_models.PlatformObjectManager
-    else:
-        raise ImportError
-except ImportError:
-    ObjectManager = models.Manager
 
 
 class PostBase(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, MetadataMixin, PublishingStatusMixin, AttributeMixin):
@@ -48,7 +36,7 @@ class PostBase(ImageMixin, SlugMixin, TitleMixin, ModifiedMixin, CreatedMixin, M
         return self.title
 
 
-class PostManager(ObjectManager):
+class PostManager(models.Manager):
     """
         Get items that should be visible to the currently logged in user
             - if no user is provided, only published items will be returned
@@ -78,8 +66,6 @@ class PostManager(ObjectManager):
 
 
 class Post(PostBase):
-
-    objects = PostManager()
 
     def get_absolute_url(self):
         """Returns the absolute url for a single post instance
